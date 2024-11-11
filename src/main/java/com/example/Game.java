@@ -74,7 +74,7 @@ public class Game {
         board[12] = -5; // Player 2's checkers
         board[16] = 3;  // Player 1's checkers
         board[18] = 5;  // Player 1's checkers
-        board[23] = -2; // Player 2's checkers
+        board[23] = -2; // Player 2's checkers 1
     }
 
     public static void playGame() {
