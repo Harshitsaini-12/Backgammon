@@ -77,6 +77,7 @@ public class Game {
         board[23] = -2; // Player 2's checkers
     }
 
+    //play the game function modification addition
     public static void playGame() {
         while (true) {
             displayBoard();
