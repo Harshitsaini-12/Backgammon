@@ -207,6 +207,9 @@ public class Game {
             case "dice":
                 handleDiceCommand(parts);
                 break;
+            case "quit":
+                System.out.println("Quitting the game...");
+                System.exit(0);
             default:
                 System.out.println("Invalid command in test file: " + command);
         }

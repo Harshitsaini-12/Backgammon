@@ -1,0 +1,5 @@
+roll
+pip
+double
+dice 3 4
+quit
