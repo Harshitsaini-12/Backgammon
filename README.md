@@ -1,8 +1,8 @@
 # Backgammon Group Project
 
 ## Group Information
-- **Group Name:** Techie owls
-- **Members:**
+- **Group Name:** Techie owls (Group-42)
+- **Team Members Names and Github ids:**
     - Harshit Saini (GitHub ID: https://github.com/Harshitsaini-12)
     - Dharamveer (GitHub ID: https://github.com/Dharamveer27)
 

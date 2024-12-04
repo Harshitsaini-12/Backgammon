@@ -1,7 +1,9 @@
-//-------------------------------------------------------------------------------------------------------
+//          Group Name:-Techie owls (Group 42)
+//          Team Members Names and Github ids
+//          Harshit Saini (GitHub ID: https://github.com/Harshitsaini-12)
+//          Dharamveer (GitHub ID: https://github.com/Dharamveer27)
 
 package com.example;
-
 import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
