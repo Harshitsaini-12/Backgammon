@@ -62,8 +62,8 @@ Member 2: 50%
 
 
 Sprint 2
-Member 1: 55%
-Member 2: 45%
+Member 1: 50%
+Member 2: 50%
 
 Sprint 3
 Member 1: 50%
