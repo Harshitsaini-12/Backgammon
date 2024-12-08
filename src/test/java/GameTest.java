@@ -197,4 +197,49 @@ public class GameTest {
         Game.board[8] = -2;
         assertEquals(3, Game.highestOccupiedPoint(false));
     }
+    @Test
+    void testIsGameOverWithAllCheckersBornOff() {
+        Game.player1BearOff = 15;
+        assertTrue(Game.isGameOver());
+    }
+    @Test
+    void testIsGamemonWithAllCheckersNotBornOff() {
+        Game.isPlayer1Turn = true;
+        Game.player2BearOff = 0;
+        assertTrue(Game.isGamemon());
+    }
+
+    @Test
+    void testIsBackgammonWithCheckersOnBar() {
+        Game.isPlayer1Turn = true;
+        Game.player2BearOff = 0;
+        Game.player2Bar = 1;
+        assertTrue(Game.isBackgammon());
+    }
+    @Test
+    void testCalculatePointsWithBackgammon() {
+        // Setup initial game state for backgammon
+        Game.isPlayer1Turn = true;
+        Game.currentStake = 1;
+        Game.player2BearOff = 0;
+        Game.player2Bar = 1;
+
+        int points = Game.calculatePoints();
+        assertEquals(6, points); // Backgammon triples the stake from 1 to 6
+    }
+    @Test
+    void testHandleTestCommandWithEmptyFile() {
+        String[] command = {"test", "emptyfile.txt"};
+        // Mock System.out to capture the output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.handleTestCommand(command);
+            String output = outputStream.toString();
+            assertTrue(output.contains("Error: File not found"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
 }
