@@ -242,4 +242,37 @@ public class GameTest {
             System.setOut(originalOut);
         }
     }
+    @Test
+    void testHighestOccupiedPointForPlayer1WithNoCheckers() {
+        Game.board = new int[Game.BOARD_SIZE];
+        assertEquals(-1, Game.highestOccupiedPoint(true));
+    }
+    @Test
+    void testGetPlayerNameWithNonEmptyInput() {
+        // Mock scanner to simulate user input
+        Scanner mockScanner = new Scanner(new ByteArrayInputStream("John\n".getBytes()));
+        Scanner originalScanner = Game.scanner;
+        try {
+            Game.scanner = mockScanner;
+            String name = Game.getPlayerName("Player 1");
+            assertEquals("John", name);
+        } finally {
+            Game.scanner = originalScanner;
+        }
+    }
+    @Test
+    void testDisplayHintOutput() {
+        // Mock System.out to capture the output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.displayHint();
+            String output = outputStream.toString();
+            assertTrue(output.contains("Available commands:"));
+            assertTrue(output.contains("- roll: Roll the dice and make a move"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
 }
