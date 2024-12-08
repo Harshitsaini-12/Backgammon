@@ -66,6 +66,20 @@ public class GameTest {
         }
     }
 
-
+    @Test
+    void testDetermineFirstPlayerWithDifferentRolls() {
+        // Mocking random.nextInt to return different values for each player
+        Game.random = new Random() {
+            private int count = 0;
+            @Override
+            public int nextInt(int bound) {
+                return count++ % 2 == 0 ? 3 : 4; // Alice rolls 3, Bob rolls 4
+            }
+        };
+        Game.player1Name = "Jhon";
+        Game.player2Name = "Bob";
+        Game.determineFirstPlayer();
+        assertFalse(Game.isPlayer1Turn); // Bob should go first
+    }
 
 }
