@@ -33,6 +33,7 @@ public class Game {
     public static boolean cubeOffered = false;
     public static int cubeOwner = 0; // 0 for centered, 1 for player1, 2 for player2
 
+    // method for instilisation of game
     public static void initializeGame() {
         board = new int[BOARD_SIZE];
         random = new Random();
@@ -49,13 +50,14 @@ public class Game {
         currentStake = 1;
     }
 
+    // main logic for handling the commands
     public static void playGame() {
         while (true) {
             displayBoard();
             displayMatchInfo();
             String currentPlayer = isPlayer1Turn ? player1Name : player2Name;
             System.out.println("\nCurrent player: " + currentPlayer);
-            System.out.print(currentPlayer + ", enter a command (roll, pip, hint, double, dice, test, quit): ");
+            System.out.print(currentPlayer + ", enter a command (roll, pip, hint, double, newmatch, dice, test, quit): ");
             String command = scanner.nextLine().trim().toLowerCase();
             String[] parts = command.split("\\s+");
             switch (parts[0]) {
@@ -88,6 +90,10 @@ public class Game {
                 case "quit":
                     System.out.println("Thanks for playing!");
                     return;
+                case "newmatch":
+                    System.out.println("Starting a new match...");
+                    startNewMatch();
+                    return; // This will exit the current game loop
                 default:
                     System.out.println("Invalid command. Type 'hint' for a list of commands.");
             }
@@ -97,6 +103,7 @@ public class Game {
         }
     }
 
+    // method for displaying pip score
     public static void displayPipCount() {
         int player1Pips = calculatePipCount(true);
         int player2Pips = calculatePipCount(false);
@@ -104,6 +111,7 @@ public class Game {
         System.out.println(player2Name + " pip count: " + player2Pips);
     }
 
+    // calculate the pip count
     public static int calculatePipCount(boolean forPlayer1) {
         int pipCount = 0;
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -120,6 +128,7 @@ public class Game {
         return pipCount;
     }
 
+    // method for displaying matchinfo
     public static void displayMatchInfo() {
         System.out.println("Match length: " + matchLength);
         System.out.println("Match score - " + player1Name + ": " + player1MatchScore + ", " + player2Name + ": " + player2MatchScore);
@@ -127,6 +136,7 @@ public class Game {
         System.out.println("Cube owner: " + (cubeOwner == 0 ? "Centered" : (cubeOwner == 1 ? player1Name : player2Name)));
     }
 
+    //method to handle double command
     public static void handleDoubleCommand() {
         if (cubeOffered) {
             System.out.println("Error: Double has already been offered this turn.");
@@ -150,6 +160,7 @@ public class Game {
         cubeOffered = false;
     }
 
+    //method for handling dice command
     public static void handleDiceCommand(String[] parts) {
         if (parts.length != 3) {
             System.out.println("Error: Invalid dice command format. Use 'dice <int> <int>'");
@@ -169,6 +180,7 @@ public class Game {
         }
     }
 
+    //method for handling test command
     public static void handleTestCommand(String[] parts) {
         if (parts.length != 2) {
             System.out.println("Error: Invalid test command format. Use 'test <filename>'");
@@ -186,6 +198,7 @@ public class Game {
         }
     }
 
+    //method to handle process file
     public static void processCommand(String command) {
         String[] parts = command.split("\\s+");
         switch (parts[0]) {
@@ -212,11 +225,16 @@ public class Game {
             case "quit":
                 System.out.println("Quitting the game...");
                 System.exit(0);
+            case "newmatch":
+                System.out.println("Starting a new match...");
+                startNewMatch();
+                return; // This will exit the current game loop
             default:
                 System.out.println("Invalid command in test file: " + command);
         }
     }
 
+    // method for ending the game
     public static void endGame(boolean forfeit) {
         int points = forfeit ? currentStake : calculatePoints();
         if (isPlayer1Turn) {
@@ -239,6 +257,7 @@ public class Game {
         }
     }
 
+    // method to calculate final points score
     public static int calculatePoints() {
         int points = currentStake;
         if (isGamemon()) {
@@ -252,6 +271,7 @@ public class Game {
         return points;
     }
 
+    //method for is game over or not
     public static boolean isGamemon() {
         return (isPlayer1Turn && player2BearOff == 0) || (!isPlayer1Turn && player1BearOff == 0);
     }
@@ -264,6 +284,7 @@ public class Game {
         }
     }
 
+    //method for checker in home board or not
     public static boolean hasCheckersInHomeBoard(boolean forPlayer1) {
         int start = forPlayer1 ? 0 : 18;
         int end = forPlayer1 ? 6 : 24;
@@ -275,6 +296,7 @@ public class Game {
         return false;
     }
 
+    //method for starting new match from intial
     public static void startNewMatch() {
         System.out.print("Enter the new match length: ");
         matchLength = Integer.parseInt(scanner.nextLine());
@@ -282,9 +304,15 @@ public class Game {
         player2MatchScore = 0;
         currentStake = 1;
         cubeOwner = 0;
+        player1Bar = 0;
+        player2Bar = 0;
+        player1BearOff = 0;
+        player2BearOff = 0;
         initializeGame();
+        playGame();
     }
 
+    //method for displaying hint command
     public static void displayHint() {
         System.out.println("Available commands:");
         System.out.println("- roll: Roll the dice and make a move");
@@ -296,6 +324,7 @@ public class Game {
         System.out.println("- quit: End the game");
     }
 
+    //method to determine first player move
     public static void determineFirstPlayer() {
         int player1Roll = rollDie();
         int player2Roll = rollDie();
@@ -315,6 +344,7 @@ public class Game {
         diceRoll = new int[]{player1Roll, player2Roll};
     }
 
+    //method to get player name
     public static String getPlayerName(String playerNumber) {
         String name = "";
         while (name.trim().isEmpty()) {
@@ -327,6 +357,7 @@ public class Game {
         return name;
     }
 
+    //method for intilaisation
     public static void setupBoard() {
         board[0] = 2; // Player 1's checkers
         board[5] = -5; // Player 2's checkers
@@ -338,6 +369,7 @@ public class Game {
         board[23] = -2; // Player 2's checkers
     }
 
+    //method to display board
     public static void displayBoard() {
         System.out.println("\n--- Current Backgammon Board ---");
         displayPipNumbers(true);
@@ -350,6 +382,7 @@ public class Game {
         System.out.println("\nBear off - " + player1Name + ": " + player1BearOff + ", " + player2Name + ": " + player2BearOff);
     }
 
+    //dislaying the pip number
     public static void displayPipNumbers(boolean isTopRow) {
         StringBuilder pipNumbers = new StringBuilder();
         int start = isTopRow ? (isPlayer1Turn ? 13 : 12) : (isPlayer1Turn ? 12 : 13);
@@ -361,6 +394,7 @@ public class Game {
         System.out.println(pipNumbers.toString());
     }
 
+    //printing the upper row of game display
     public static void printUpperRow() {
         for (int i = 12; i < 24; i++) {
             printPosition(board[i]);
@@ -368,6 +402,7 @@ public class Game {
         System.out.println();
     }
 
+    //printing the lower row of game display
     public static void printLowerRow() {
         for (int i = 11; i >= 0; i--) {
             printPosition(board[i]);
@@ -375,6 +410,7 @@ public class Game {
         System.out.println();
     }
 
+    //print the position of move
     public static void printPosition(int checkers) {
         if (checkers > 0) {
             System.out.printf("+%1d ", checkers);
@@ -385,6 +421,7 @@ public class Game {
         }
     }
 
+    //method for rolling dice
     public static void rollDice() {
         diceRoll = new int[]{rollDie(), rollDie()};
         System.out.println("Rolled: " + diceRoll[0] + " and " + diceRoll[1]);
@@ -394,6 +431,7 @@ public class Game {
         return random.nextInt(6) + 1;
     }
 
+    //metjod for calculating legal moves
     public static List<String> calculateLegalMoves() {
         List<String> legalMoves = new ArrayList<>();
         Set<String> uniqueMoves = new HashSet<>();
@@ -460,6 +498,7 @@ public class Game {
         return -1;
     }
 
+    //display legal moves
     public static void displayLegalMoves(List<String> legalMoves) {
         System.out.println("Legal moves:");
         for (int i = 0; i < legalMoves.size(); i++) {
@@ -467,6 +506,7 @@ public class Game {
         }
     }
 
+    //get selected move
     public static String getSelectedMove(List<String> legalMoves) {
         while (true) {
             System.out.print("Enter your move (letter or 'X-Y' format): ");
@@ -510,14 +550,11 @@ public class Game {
         System.out.println("Move applied: " + move);
     }
 
+    //display game over
     public static boolean isGameOver() {
         return player1BearOff == 15 || player2BearOff == 15;
     }
 
-//    public static void announceWinner() {
-//        String winner = player1BearOff == 15 ? player1Name : player2Name;
-//        System.out.println("Congratulations! " + winner + " has won the game!");
-//    }
 }
 
 
