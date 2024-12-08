@@ -145,5 +145,22 @@ public class GameTest {
             System.setIn(originalIn);
         }
     }
+    @Test
+    void testGetPlayerNameWithEmptyInput() {
+        // Mock the scanner to simulate input
+        Scanner mockScanner = new Scanner(new ByteArrayInputStream("\nAlice\n".getBytes()));
 
+        // Temporarily replace the game's scanner
+        Scanner originalScanner = Game.scanner;
+        try {
+            Game.scanner = mockScanner;
+
+            // Call the method and verify the result
+            String name = Game.getPlayerName("Player 1");
+            assertEquals("Alice", name);
+        } finally {
+            // Restore the original scanner
+            Game.scanner = originalScanner;
+        }
+    }
 }
