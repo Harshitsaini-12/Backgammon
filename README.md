@@ -72,25 +72,31 @@ Member 2: 50%
 
 ## Self-assessment Checklist
 
-| Feature                 | Status        | Comments |
-|-------------------------|---------------|----------|
-| Display Board           | Fully Working |          |
-| Enter Names             | Fully Working |          |
-| Roll Command            | Fully Working |          |
-| Quit Command            | Fully Working |          |
-| Roll to Start           | Fully Working |          |
-| Current Player Display  | Fully Working |          |
-| Pip Display             | Fully Working |          |
-| Legal Moves Selection   | Fully Working |          |
-| Pip Command             | Fully Working |          |
-| Hint Command            | Fully Working |          |
-| Syntax Check            | Fully Working |          |
-| Game Over Detection     | Fully Working |          |
-| Dice Command            | Fully Working |          |
-| Test Command            | Fully Working |          |
-| Match Setup             | Fully Working |          |
-| Display Match Score     | Fully Working |          |
-| Double Command          | Fully Working |          |
-| Game End Types          | Fully Working |          |
-| Match End Detection     | Fully Working |          |
-| New Match Feature       | Fully Working |          |
+| Feature                | Status        | Comments |
+|------------------------|---------------|----------|
+| Display Board          | Fully Working |          |
+| Enter Names            | Fully Working |          |
+| Roll Command           | Fully Working |          |
+| Quit Command           | Fully Working |          |
+| Roll to Start          | Fully Working |          |
+| Current Player Display | Fully Working |          |
+| Pip Display            | Fully Working |          |
+| Legal Moves Selection  | Fully Working |          |
+| Pip Command            | Fully Working |          |
+| Hint Command           | Fully Working |          |
+| Syntax Check           | Fully Working |          |
+| Game Over Detection    | Fully Working |          |
+| Dice Command           | Fully Working |          |
+| Test Command           | Fully Working |          |
+| Names and match length | Fully Working |          |
+| Display Cube           | Fully Working |          |
+| Double Command         | Fully Working |          |
+| Game End Types         | Fully Working |          |
+| Match End Detection    | Fully Working |          |
+| New Match Feature      | Fully Working |          |
+| Display Match score    | Fully Working |          |
+| Hint command           | Fully Working |          |
+
+
+## GitHub Release
+A release has been created on GitHub for this project. You can find it here:https://github.com/Harshitsaini-12/Backgammon
