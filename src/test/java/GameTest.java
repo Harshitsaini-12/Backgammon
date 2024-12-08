@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.Game;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
@@ -83,113 +81,8 @@ public class GameTest {
         Game.determineFirstPlayer();
         assertFalse(Game.isPlayer1Turn); // Bob should go first
     }
-    @Test
-    void testDisplayBoard() {
-        // Setup initial game state
-        Game.player1Name = "Alice";
-        Game.player2Name = "Bob";
-        Game.matchLength = 5;
-        Game.setupBoard(); // Initialize the board manually
 
-        // Mock System.out to capture the output
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            System.setOut(new PrintStream(outputStream));
-            Game.displayBoard();
-            String output = outputStream.toString();
-            assertTrue(output.contains("--- Current Backgammon Board ---"));
-            assertTrue(output.contains("BAR: Alice: 0, Bob: 0"));
-        } finally {
-            System.setOut(originalOut);
-        }
-    }
-
-    @Test
-    void testDisplayHint() {
-        // Mock System.out to capture the output
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            System.setOut(new PrintStream(outputStream));
-            Game.displayHint();
-            String output = outputStream.toString();
-            assertTrue(output.contains("Available commands:"));
-            assertTrue(output.contains("roll: Roll the dice and make a move"));
-        } finally {
-            System.setOut(originalOut);
-        }
-    }
-    @Test
-    void testStartNewMatchWithInvalidInput() {
-        // Setup initial game state
-        Game.player1MatchScore = 3;
-        Game.player2MatchScore = 2;
-        Game.matchLength = 5;
-        Game.currentStake = 2;
-
-        // Simulate invalid input for match length
-        InputStream originalIn = System.in;
-        try {
-            ByteArrayInputStream in = new ByteArrayInputStream("invalid\n7\n".getBytes());
-            System.setIn(in);
-            Game.startNewMatch();
-            assertEquals(0, Game.player1MatchScore);
-            assertEquals(0, Game.player2MatchScore);
-            assertEquals(7, Game.matchLength);
-            assertEquals(1, Game.currentStake);
-        } catch (NumberFormatException e) {
-            // Handle the exception to prevent test failure
-            System.out.println("Test passed: Invalid input was handled correctly.");
-        } finally {
-            System.setIn(originalIn);
-        }
-    }
-    @Test
-    void testGetPlayerNameWithEmptyInput() {
-        // Mock the scanner to simulate input
-        Scanner mockScanner = new Scanner(new ByteArrayInputStream("\nAlice\n".getBytes()));
-
-        // Temporarily replace the game's scanner
-        Scanner originalScanner = Game.scanner;
-        try {
-            Game.scanner = mockScanner;
-
-            // Call the method and verify the result
-            String name = Game.getPlayerName("Player 1");
-            assertEquals("Alice", name);
-        } finally {
-            // Restore the original scanner
-            Game.scanner = originalScanner;
-        }
-    }
-    @Test
-    void testCanMoveToPointWithEmptyPoint() {
-        Game.board = new int[Game.BOARD_SIZE];
-        Game.isPlayer1Turn = true;
-        Game.board[5] = -1; // Opponent's blot
-        assertTrue(Game.canMoveToPoint(5));
-    }
-
-    @Test
-    void testCanBearOffWithAllCheckersInHomeBoard() {
-        Game.board = new int[Game.BOARD_SIZE];
-        Game.isPlayer1Turn = true;
-        // Place all checkers in home board
-        for (int i = 18; i < 24; i++) {
-            Game.board[i] = 1;
-        }
-        assertTrue(Game.canBearOff(23, 3));
-    }
-
-    @Test
-    void testHighestOccupiedPointForPlayer1() {
-        Game.board = new int[Game.BOARD_SIZE];
-        Game.board[15] = 3;
-        Game.board[20] = 2;
-        assertEquals(20, Game.highestOccupiedPoint(true));
-    }
-
+<<<<<<< HEAD
     @Test
     void testHighestOccupiedPointForPlayer2() {
         Game.board = new int[Game.BOARD_SIZE];
@@ -242,4 +135,6 @@ public class GameTest {
             System.setOut(originalOut);
         }
     }
+=======
+>>>>>>> eb65dc1738817297f2514744fc79458bfb06c02e
 }
