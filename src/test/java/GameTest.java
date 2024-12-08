@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.Game;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.List;
@@ -80,6 +82,43 @@ public class GameTest {
         Game.player2Name = "Bob";
         Game.determineFirstPlayer();
         assertFalse(Game.isPlayer1Turn); // Bob should go first
+    }
+    @Test
+    void testDisplayBoard() {
+        // Setup initial game state
+        Game.player1Name = "Alice";
+        Game.player2Name = "Bob";
+        Game.matchLength = 5;
+        Game.setupBoard(); // Initialize the board manually
+
+        // Mock System.out to capture the output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.displayBoard();
+            String output = outputStream.toString();
+            assertTrue(output.contains("--- Current Backgammon Board ---"));
+            assertTrue(output.contains("BAR: Alice: 0, Bob: 0"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testDisplayHint() {
+        // Mock System.out to capture the output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.displayHint();
+            String output = outputStream.toString();
+            assertTrue(output.contains("Available commands:"));
+            assertTrue(output.contains("roll: Roll the dice and make a move"));
+        } finally {
+            System.setOut(originalOut);
+        }
     }
 
 }
