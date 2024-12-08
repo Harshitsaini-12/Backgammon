@@ -77,30 +77,30 @@ we have also added java doc functionality for the methods to run that execute th
 
 ## Self-assessment Checklist
 
-| Feature                | Status        | Comments |
-|------------------------|---------------|----------|
-| Display Board          | Fully Working |          |
-| Enter Names            | Fully Working |          |
-| Roll Command           | Fully Working |          |
-| Quit Command           | Fully Working |          |
-| Roll to Start          | Fully Working |          |
-| Current Player Display | Fully Working |          |
-| Pip Display            | Fully Working |          |
-| Legal Moves Selection  | Fully Working |          |
-| Pip Command            | Fully Working |          |
-| Hint Command           | Fully Working |          |
-| Syntax Check           | Fully Working |          |
-| Game Over Detection    | Fully Working |          |
-| Dice Command           | Fully Working |          |
-| Test Command           | Fully Working |          |
-| Names and match length | Fully Working |          |
-| Display Cube           | Fully Working |          |
-| Double Command         | Fully Working |          |
-| Game End Types         | Fully Working |          |
-| Match End Detection    | Fully Working |          |
-| New Match Feature      | Fully Working |          |
-| Display Match score    | Fully Working |          |
-| Hint command           | Fully Working |          |
+| Feature                | Status        | Done by |
+|------------------------|---------------|---------|
+| Display Board          | Fully Working | Harshit |
+| Enter Names            | Fully Working | Harshit |
+| Roll Command           | Fully Working | Dharam  |
+| Quit Command           | Fully Working | Harshit |
+| Roll to Start          | Fully Working | Dharam  |
+| Current Player Display | Fully Working | Dharam  |
+| Pip Display            | Fully Working | Harshit |
+| Legal Moves Selection  | Fully Working | Harshit |
+| Pip Command            | Fully Working | Dharam  |
+| Hint Command           | Fully Working | Dharam  |
+| Syntax Check           | Fully Working | Dharam  |
+| Game Over Detection    | Fully Working | Harshit |
+| Dice Command           | Fully Working | Harshit |
+| Test Command           | Fully Working | Dharam  |
+| Names and match length | Fully Working | Harshit |
+| Display Cube           | Fully Working | Harshit |
+| Double Command         | Fully Working | Dharam  |
+| Game End Types         | Fully Working | Dharam  |
+| Match End Detection    | Fully Working | Harshit |
+| New Match Feature      | Fully Working | Harshit |
+| Display Match score    | Fully Working | Dharam  |
+| Hint command           | Fully Working | Harshit |
 
 ## test cases are working fully with more then 95% coverage
 
