@@ -7,9 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.List;
+import java.util.*;
 
 public class GameTest {
 
@@ -271,6 +269,197 @@ public class GameTest {
             String output = outputStream.toString();
             assertTrue(output.contains("Available commands:"));
             assertTrue(output.contains("- roll: Roll the dice and make a move"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testRollDieValidRange() {
+        for (int i = 0; i < 100; i++) {
+            int roll = Game.rollDie();
+            assertTrue(roll >= 1 && roll <= 6);
+        }
+    }
+
+    @Test
+    void testCalculatePipCountWithBarCheckers() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.board[5] = 3;
+        Game.player1Bar = 2;
+        Game.player1Name = "Alice";
+
+        int pipCount = Game.calculatePipCount(true);
+        assertTrue(pipCount > 0);
+    }
+
+    @Test
+    void testHandleDiceCommandWithInvalidFormat() {
+        String[] command = {"dice", "invalid"};
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.handleDiceCommand(command);
+            String output = outputStream.toString();
+            assertTrue(output.contains("Error: Invalid dice command format"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testProcessCommandWithInvalidCommand() {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.processCommand("invalid");
+            String output = outputStream.toString();
+            assertTrue(output.contains("Invalid command in test file"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testProcessCommandWithPip() {
+        // Mock System.out to capture the output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.processCommand("pip");
+            String output = outputStream.toString();
+            assertTrue(output.contains("pip count"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testHandleDiceCommandWithOutOfRangeDice() {
+        String[] command = {"dice", "7", "8"};
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.handleDiceCommand(command);
+            String output = outputStream.toString();
+            assertTrue(output.contains("Dice values must be between 1 and 6"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testDisplayMatchInfoOutput() {
+        Game.player1Name = "Alice";
+        Game.player2Name = "Bob";
+        Game.matchLength = 5;
+        Game.player1MatchScore = 2;
+        Game.player2MatchScore = 1;
+        Game.currentStake = 2;
+
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.displayMatchInfo();
+            String output = outputStream.toString();
+            assertTrue(output.contains("Match length: 5"));
+            assertTrue(output.contains("Current stake: 2"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+
+    @Test
+    void testRollDieConsistency() {
+        Set<Integer> rolls = new HashSet<>();
+        for (int i = 0; i < 1000; i++) {
+            int roll = Game.rollDie();
+            assertTrue(roll >= 1 && roll <= 6);
+            rolls.add(roll);
+        }
+        assertEquals(6, rolls.size()); // Ensure all numbers are possible
+    }
+
+    @Test
+    void testCalculateLegalMovesWithBarCheckers() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.isPlayer1Turn = true;
+        Game.player1Bar = 2;
+        Game.diceRoll = new int[]{3, 4};
+
+        List legalMoves = Game.calculateLegalMoves();
+        assertFalse(legalMoves.isEmpty());
+    }
+
+    @Test
+    void testProcessCommandWithInvalidCommandnew() {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.processCommand("invalid");
+            String output = outputStream.toString();
+            assertTrue(output.contains("Invalid command"));
+        } finally {
+            System.setOut(originalOut);
+        }
+    }
+
+    @Test
+    void testGetSelectedMoveWithInvalidInput() {
+        List legalMoves = Arrays.asList("5-9", "12-16");
+        Scanner mockScanner = new Scanner(new ByteArrayInputStream("invalid\n5-9\n".getBytes()));
+        Scanner originalScanner = Game.scanner;
+        try {
+            Game.scanner = mockScanner;
+            String move = Game.getSelectedMove(legalMoves);
+            assertEquals("5-9", move);
+        } finally {
+            Game.scanner = originalScanner;
+        }
+    }
+
+    @Test
+    void testCalculatePipCountWithBarChecker() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.board[5] = 3;
+        Game.player1Bar = 2;
+        Game.isPlayer1Turn = true;
+
+        int pipCount = Game.calculatePipCount(true);
+        assertTrue(pipCount > 0);
+    }
+
+    @Test
+    void testCalculatePipCountWithMixedCheckers() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.board[5] = 3;
+        Game.board[10] = -2;
+        Game.player1Bar = 1;
+        Game.player2Bar = 1;
+
+        int player1Pips = Game.calculatePipCount(true);
+        int player2Pips = Game.calculatePipCount(false);
+
+        assertTrue(player1Pips > 0);
+        assertTrue(player2Pips > 0);
+    }
+
+    @Test
+    void testProcessCommandWithUnexpectedInput() {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outputStream));
+            Game.processCommand("unexpected");
+            String output = outputStream.toString();
+            assertTrue(output.contains("Invalid command"));
         } finally {
             System.setOut(originalOut);
         }
