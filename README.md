@@ -102,6 +102,7 @@ we have also added java doc functionality for the methods to run that execute th
 | Display Match score    | Fully Working |          |
 | Hint command           | Fully Working |          |
 
+## test cases are working fully
 
 ## GitHub Release
 A release has been created on GitHub for this project. You can find it here:https://github.com/Harshitsaini-12/Backgammon
