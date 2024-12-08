@@ -163,4 +163,38 @@ public class GameTest {
             Game.scanner = originalScanner;
         }
     }
+    @Test
+    void testCanMoveToPointWithEmptyPoint() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.isPlayer1Turn = true;
+        Game.board[5] = -1; // Opponent's blot
+        assertTrue(Game.canMoveToPoint(5));
+    }
+
+    @Test
+    void testCanBearOffWithAllCheckersInHomeBoard() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.isPlayer1Turn = true;
+        // Place all checkers in home board
+        for (int i = 18; i < 24; i++) {
+            Game.board[i] = 1;
+        }
+        assertTrue(Game.canBearOff(23, 3));
+    }
+
+    @Test
+    void testHighestOccupiedPointForPlayer1() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.board[15] = 3;
+        Game.board[20] = 2;
+        assertEquals(20, Game.highestOccupiedPoint(true));
+    }
+
+    @Test
+    void testHighestOccupiedPointForPlayer2() {
+        Game.board = new int[Game.BOARD_SIZE];
+        Game.board[3] = -3;
+        Game.board[8] = -2;
+        assertEquals(3, Game.highestOccupiedPoint(false));
+    }
 }
