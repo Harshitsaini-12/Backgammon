@@ -69,6 +69,11 @@ Sprint 3
 Member 1: 50%
 Member 2: 50%
 
+## java doc functionality
+we have also added java doc functionality for the methods to run that execute the command
+
+-- javadoc -d doc -sourcepath src/main/java com.example
+
 
 ## Self-assessment Checklist
 

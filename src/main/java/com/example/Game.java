@@ -13,6 +13,12 @@ import java.util.Set;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * This class represents a Backgammon game implementation.
+ * It includes functionality for game setup, player moves, dice rolling,
+ * and game state management.
+ */
+
 public class Game {
     public static final int BOARD_SIZE = 24;
     public static String player1Name;
@@ -33,7 +39,10 @@ public class Game {
     public static boolean cubeOffered = false;
     public static int cubeOwner = 0; // 0 for centered, 1 for player1, 2 for player2
 
-    // method for instilisation of game
+    /**
+     * Initializes a new Backgammon game.
+     * Sets up the board, prompts for player names, and determines the first player.
+     */
     public static void initializeGame() {
         board = new int[BOARD_SIZE];
         random = new Random();
@@ -51,6 +60,9 @@ public class Game {
     }
 
     // main logic for handling the commands
+    /**
+     * Manages the main game loop, handling player turns and commands.
+     */
     public static void playGame() {
         while (true) {
             displayBoard();
@@ -104,6 +116,9 @@ public class Game {
     }
 
     // method for displaying pip score
+    /**
+     * Displays the current pip count for both players.
+     */
     public static void displayPipCount() {
         int player1Pips = calculatePipCount(true);
         int player2Pips = calculatePipCount(false);
@@ -112,6 +127,12 @@ public class Game {
     }
 
     // calculate the pip count
+    /**
+     * Calculates the pip count for a given player.
+     *
+     * @param forPlayer1 true if calculating for player 1, false for player 2
+     * @return the calculated pip count
+     */
     public static int calculatePipCount(boolean forPlayer1) {
         int pipCount = 0;
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -137,6 +158,10 @@ public class Game {
     }
 
     //method to handle double command
+    /**
+     * Handles the doubling cube command.
+     * Offers a double to the opponent and processes their response.
+     */
     public static void handleDoubleCommand() {
         if (cubeOffered) {
             System.out.println("Error: Double has already been offered this turn.");
@@ -161,6 +186,11 @@ public class Game {
     }
 
     //method for handling dice command
+    /**
+     * Sets custom dice values for the next roll.
+     *
+     * @param parts An array containing the command and two dice values
+     */
     public static void handleDiceCommand(String[] parts) {
         if (parts.length != 3) {
             System.out.println("Error: Invalid dice command format. Use 'dice <int> <int>'");
@@ -181,6 +211,11 @@ public class Game {
     }
 
     //method for handling test command
+    /**
+     * Executes commands from a specified file for testing purposes.
+     *
+     * @param parts An array containing the command and filename
+     */
     public static void handleTestCommand(String[] parts) {
         if (parts.length != 2) {
             System.out.println("Error: Invalid test command format. Use 'test <filename>'");
@@ -199,6 +234,11 @@ public class Game {
     }
 
     //method to handle process file
+    /**
+     * Processes a single command, used for both user input and test file commands.
+     *
+     * @param command The command to process
+     */
     public static void processCommand(String command) {
         String[] parts = command.split("\\s+");
         switch (parts[0]) {
@@ -235,6 +275,11 @@ public class Game {
     }
 
     // method for ending the game
+    /**
+     * Ends the current game, updates scores, and checks for match completion.
+     *
+     * @param forfeit true if the game ended due to a forfeit, false otherwise
+     */
     public static void endGame(boolean forfeit) {
         int points = forfeit ? currentStake : calculatePoints();
         if (isPlayer1Turn) {
@@ -258,6 +303,11 @@ public class Game {
     }
 
     // method to calculate final points score
+    /**
+     * Calculates the points for the current game, including Gammon and Backgammon.
+     *
+     * @return the calculated points
+     */
     public static int calculatePoints() {
         int points = currentStake;
         if (isGamemon()) {
@@ -272,10 +322,20 @@ public class Game {
     }
 
     //method for is game over or not
+    /**
+     * Checks if the current game state is a Gammon.
+     *
+     * @return true if the game is a Gammon, false otherwise
+     */
     public static boolean isGamemon() {
         return (isPlayer1Turn && player2BearOff == 0) || (!isPlayer1Turn && player1BearOff == 0);
     }
 
+    /**
+     * Checks if the current game state is a Backgammon.
+     *
+     * @return true if the game is a Backgammon, false otherwise
+     */
     public static boolean isBackgammon() {
         if (isPlayer1Turn) {
             return player2BearOff == 0 && (player2Bar > 0 || hasCheckersInHomeBoard(!isPlayer1Turn));
@@ -285,6 +345,12 @@ public class Game {
     }
 
     //method for checker in home board or not
+    /**
+     * Checks if a player has checkers in their home board.
+     *
+     * @param forPlayer1 true to check for player 1, false for player 2
+     * @return true if the player has checkers in their home board, false otherwise
+     */
     public static boolean hasCheckersInHomeBoard(boolean forPlayer1) {
         int start = forPlayer1 ? 0 : 18;
         int end = forPlayer1 ? 6 : 24;
@@ -297,6 +363,9 @@ public class Game {
     }
 
     //method for starting new match from intial
+    /**
+     * Starts a new match, resetting scores and game state.
+     */
     public static void startNewMatch() {
         System.out.print("Enter the new match length: ");
         matchLength = Integer.parseInt(scanner.nextLine());
@@ -313,6 +382,9 @@ public class Game {
     }
 
     //method for displaying hint command
+    /**
+     * Displays a list of available commands to the user.
+     */
     public static void displayHint() {
         System.out.println("Available commands:");
         System.out.println("- roll: Roll the dice and make a move");
@@ -325,6 +397,9 @@ public class Game {
     }
 
     //method to determine first player move
+    /**
+     * Determines which player goes first by rolling dice.
+     */
     public static void determineFirstPlayer() {
         int player1Roll = rollDie();
         int player2Roll = rollDie();
@@ -345,6 +420,12 @@ public class Game {
     }
 
     //method to get player name
+    /**
+     * Prompts for and returns a player's name.
+     *
+     * @param playerNumber The player number (e.g., "Player 1" or "Player 2")
+     * @return The entered player name
+     */
     public static String getPlayerName(String playerNumber) {
         String name = "";
         while (name.trim().isEmpty()) {
@@ -358,6 +439,9 @@ public class Game {
     }
 
     //method for intilaisation
+    /**
+     * Sets up the initial board state for a new game.
+     */
     public static void setupBoard() {
         board[0] = 2; // Player 1's checkers
         board[5] = -5; // Player 2's checkers
@@ -370,6 +454,9 @@ public class Game {
     }
 
     //method to display board
+    /**
+     * Displays the current state of the Backgammon board.
+     */
     public static void displayBoard() {
         System.out.println("\n--- Current Backgammon Board ---");
         displayPipNumbers(true);
@@ -383,6 +470,11 @@ public class Game {
     }
 
     //dislaying the pip number
+    /**
+     * Displays the pip numbers for the board.
+     *
+     * @param isTopRow true if displaying the top row, false for the bottom row
+     */
     public static void displayPipNumbers(boolean isTopRow) {
         StringBuilder pipNumbers = new StringBuilder();
         int start = isTopRow ? (isPlayer1Turn ? 13 : 12) : (isPlayer1Turn ? 12 : 13);
@@ -395,6 +487,9 @@ public class Game {
     }
 
     //printing the upper row of game display
+    /**
+     * Prints the upper row of the Backgammon board.
+     */
     public static void printUpperRow() {
         for (int i = 12; i < 24; i++) {
             printPosition(board[i]);
@@ -403,6 +498,9 @@ public class Game {
     }
 
     //printing the lower row of game display
+    /**
+     * Prints the lower row of the Backgammon board.
+     */
     public static void printLowerRow() {
         for (int i = 11; i >= 0; i--) {
             printPosition(board[i]);
@@ -411,6 +509,11 @@ public class Game {
     }
 
     //print the position of move
+    /**
+     * Prints a single position on the board.
+     *
+     * @param checkers The number of checkers at the position (positive for player 1, negative for player 2)
+     */
     public static void printPosition(int checkers) {
         if (checkers > 0) {
             System.out.printf("+%1d ", checkers);
@@ -422,16 +525,29 @@ public class Game {
     }
 
     //method for rolling dice
+    /**
+     * Rolls the dice for the current turn.
+     */
     public static void rollDice() {
         diceRoll = new int[]{rollDie(), rollDie()};
         System.out.println("Rolled: " + diceRoll[0] + " and " + diceRoll[1]);
     }
 
+    /**
+     * Rolls a single die.
+     *
+     * @return A random number between 1 and 6
+     */
     public static int rollDie() {
         return random.nextInt(6) + 1;
     }
 
     //metjod for calculating legal moves
+    /**
+     * Calculates all legal moves for the current player.
+     *
+     * @return A list of legal moves
+     */
     public static List<String> calculateLegalMoves() {
         List<String> legalMoves = new ArrayList<>();
         Set<String> uniqueMoves = new HashSet<>();
@@ -464,11 +580,24 @@ public class Game {
         return legalMoves;
     }
 
+    /**
+     * Checks if a move to a specific point is legal.
+     *
+     * @param targetPoint The point to check
+     * @return true if the move is legal, false otherwise
+     */
     public static boolean canMoveToPoint(int targetPoint) {
         int checkers = board[targetPoint];
         return (isPlayer1Turn && (checkers >= -1 || checkers > 0)) || (!isPlayer1Turn && (checkers <= 1 || checkers < 0));
     }
 
+    /**
+     * Checks if a player can bear off from a specific point.
+     *
+     * @param fromPoint The point to bear off from
+     * @param die The die roll value
+     * @return true if bearing off is legal, false otherwise
+     */
     public static boolean canBearOff(int fromPoint, int die) {
         if (isPlayer1Turn) {
             if (fromPoint < 18) return false;
@@ -485,6 +614,12 @@ public class Game {
         }
     }
 
+    /**
+     * Finds the highest occupied point for a player.
+     *
+     * @param forPlayer1 true for player 1, false for player 2
+     * @return The highest occupied point, or -1 if no points are occupied
+     */
     public static int highestOccupiedPoint(boolean forPlayer1) {
         if (forPlayer1) {
             for (int i = BOARD_SIZE - 1; i >= 0; i--) {
@@ -499,6 +634,11 @@ public class Game {
     }
 
     //display legal moves
+    /**
+     * Displays all legal moves to the user.
+     *
+     * @param legalMoves A list of legal moves
+     */
     public static void displayLegalMoves(List<String> legalMoves) {
         System.out.println("Legal moves:");
         for (int i = 0; i < legalMoves.size(); i++) {
@@ -507,6 +647,12 @@ public class Game {
     }
 
     //get selected move
+    /**
+     * Prompts the user to select a move from the list of legal moves.
+     *
+     * @param legalMoves A list of legal moves
+     * @return The selected move
+     */
     public static String getSelectedMove(List<String> legalMoves) {
         while (true) {
             System.out.print("Enter your move (letter or 'X-Y' format): ");
@@ -523,6 +669,11 @@ public class Game {
         }
     }
 
+    /**
+     * Applies the selected move to the game state.
+     *
+     * @param move The move to apply
+     */
     public static void applyMove(String move) {
         String[] parts = move.split("-");
         int from = parts[0].equals("bar") ? -1 : Integer.parseInt(parts[0]) - 1;
@@ -551,6 +702,11 @@ public class Game {
     }
 
     //display game over
+    /**
+     * Checks if the game is over.
+     *
+     * @return true if the game is over, false otherwise
+     */
     public static boolean isGameOver() {
         return player1BearOff == 15 || player2BearOff == 15;
     }
